@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 from prep_terrain_data import makeTerrainData
 from class_vis import prettyPicture
+from sklearn.metrics import accuracy_score
 
 features_train, labels_train, features_test, labels_test = makeTerrainData()
 
@@ -30,13 +31,38 @@ plt.show()
 
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
+################################################################################
+# from sklearn.ensemble import AdaBoostClassifier
+
+# clf = AdaBoostClassifier(n_estimators=25, learning_rate=0.5, algorithm='SAMME.R')
+# clf.fit(features_train, labels_train)
 
 
+# labels_pred = clf.predict(features_test)
 
+# accuracy = accuracy_score(labels_test, labels_pred)
+# print(accuracy)
 
+#Optimal accuracy is 0.928
+##################################################################################
+# from sklearn.neighbors import KNeighborsClassifier
+# clf = KNeighborsClassifier(n_neighbors=3, weights='distance', algorithm='auto', leaf_size=30, p=2, metric='chebyshev')
+# clf.fit(features_train, labels_train)
+# labels_pred = clf.predict(features_test)
 
+# accuracy = accuracy_score(labels_test, labels_pred)
+# print(accuracy)
 
+#Optimal accuracy is 0.944
+#################################################################################
+from sklearn.ensemble import RandomForestClassifier
+clf = RandomForestClassifier(criterion='entropy', max_depth=10, min_samples_split=50)
 
+clf.fit(features_train, labels_train)
+labels_pred = clf.predict(features_test)
+
+accuracy = accuracy_score(labels_test, labels_pred)
+print(accuracy)
 
 try:
     prettyPicture(clf, features_test, labels_test)
